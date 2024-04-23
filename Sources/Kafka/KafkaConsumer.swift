@@ -396,7 +396,7 @@ public final class KafkaConsumer: Sendable, Service {
                         break
                     }
                 }
-                try await Task.sleep(for: self.configuration.pollInterval)
+                try await Task.sleep(nanoseconds: self.configuration.pollInterval.nanoseconds)
             case .terminatePollLoop:
                 return
             }
@@ -428,7 +428,7 @@ public final class KafkaConsumer: Sendable, Service {
                 let messageResults = self.batchConsumerPoll(client: client)
                 if messageResults.isEmpty {
                     // Still no new messages, so sleep.
-                    try await Task.sleep(for: self.configuration.pollInterval)
+                    try await Task.sleep(nanoseconds: self.configuration.pollInterval.nanoseconds)
                 } else {
                     // New messages were produced to the partition that we previously finished reading.
                     let yieldResult = source.yield(contentsOf: messageResults)
@@ -442,7 +442,7 @@ public final class KafkaConsumer: Sendable, Service {
                     }
                 }
             case .suspendPollLoop:
-                try await Task.sleep(for: self.configuration.pollInterval)
+                try await Task.sleep(nanoseconds: self.configuration.pollInterval.nanoseconds)
             case .terminatePollLoop:
                 return
             }

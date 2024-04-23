@@ -24,7 +24,7 @@ public struct KafkaProducerConfiguration {
     /// The time between two consecutive polls.
     /// Effectively controls the rate at which incoming events are consumed.
     /// Default: `.milliseconds(100)`
-    public var pollInterval: Duration = .milliseconds(100)
+    public var pollInterval: MillisecondDuration = .milliseconds(100)
 
     /// Maximum timeout for flushing outstanding produce requests when the ``KafkaProducer`` is shutting down.
     /// Default: `10000`
@@ -80,7 +80,7 @@ public struct KafkaProducerConfiguration {
         /// A higher value allows larger and more effective (less overhead, improved compression) batches of messages to accumulate at the expense of increased message delivery latency.
         /// (Lowest granularity is milliseconds)
         /// Default: `.milliseconds(5)`
-        public var maximumMessageQueueTime: Duration = .milliseconds(5) {
+        public var maximumMessageQueueTime: MillisecondDuration = .milliseconds(5) {
             didSet {
                 precondition(
                     self.maximumMessageQueueTime.canBeRepresentedAsMilliseconds,
@@ -132,7 +132,7 @@ public struct KafkaProducerConfiguration {
     /// Metadata cache max age.
     /// (Lowest granularity is milliseconds)
     /// Default: `.milliseconds(900_000)`
-    public var maximumMetadataAge: Duration = .milliseconds(900_000) {
+    public var maximumMetadataAge: MillisecondDuration = .milliseconds(900_000) {
         didSet {
             precondition(
                 self.maximumMetadataAge.canBeRepresentedAsMilliseconds,

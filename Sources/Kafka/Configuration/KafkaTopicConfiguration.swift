@@ -41,7 +41,7 @@ public struct KafkaTopicConfiguration {
     /// The ack timeout of the producer request. This value is only enforced by the broker and relies on ``requiredAcknowledgements`` being != 0.
     /// (Lowest granularity is milliseconds)
     /// Default: `.milliseconds(30000)`
-    public var requestTimeout: Duration = .milliseconds(30000) {
+    public var requestTimeout: MillisecondDuration = .milliseconds(30000) {
         didSet {
             precondition(
                 self.requestTimeout.canBeRepresentedAsMilliseconds,
@@ -59,7 +59,7 @@ public struct KafkaTopicConfiguration {
         }
 
         /// (Lowest granularity is milliseconds)
-        public static func timeout(_ value: Duration) -> MessageTimeout {
+        public static func timeout(_ value: MillisecondDuration) -> MessageTimeout {
             precondition(
                 value.canBeRepresentedAsMilliseconds,
                 "Lowest granularity is milliseconds"

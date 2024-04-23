@@ -60,7 +60,7 @@ public enum KafkaConfiguration {
             }
 
             /// (Lowest granularity is milliseconds)
-            public static func interval(_ value: Duration) -> RefreshInterval {
+            public static func interval(_ value: MillisecondDuration) -> RefreshInterval {
                 precondition(
                     value.canBeRepresentedAsMilliseconds,
                     "Lowest granularity is milliseconds"
@@ -79,7 +79,7 @@ public enum KafkaConfiguration {
 
         /// When a topic loses its leader a new metadata request will be enqueued with this initial interval, exponentially increasing until the topic metadata has been refreshed. This is used to recover quickly from transitioning leader brokers.
         /// Default: `.milliseconds(250)`
-        public var refreshFastInterval: Duration = .milliseconds(250) {
+        public var refreshFastInterval: MillisecondDuration = .milliseconds(250) {
             didSet {
                 precondition(
                     self.refreshFastInterval.canBeRepresentedAsMilliseconds,
@@ -94,7 +94,7 @@ public enum KafkaConfiguration {
 
         /// Apache Kafka topic creation is asynchronous and it takes some time for a new topic to propagate throughout the cluster to all brokers. If a client requests topic metadata after manual topic creation but before the topic has been fully propagated to the broker the client is requesting metadata from, the topic will seem to be non-existent and the client will mark the topic as such, failing queued produced messages with ERR__UNKNOWN_TOPIC. This setting delays marking a topic as non-existent until the configured propagation max time has passed. The maximum propagation time is calculated from the time the topic is first referenced in the client, e.g., on `send()`.
         /// Default: `.milliseconds(30000)`
-        public var maximumPropagation: Duration = .milliseconds(30000) {
+        public var maximumPropagation: MillisecondDuration = .milliseconds(30000) {
             didSet {
                 precondition(
                     self.maximumPropagation.canBeRepresentedAsMilliseconds,
@@ -111,7 +111,7 @@ public enum KafkaConfiguration {
         /// Default timeout for network requests. Producer: ProduceRequests will use the lesser value of ``KafkaConfiguration/SocketOptions/timeout``
         /// and remaining ``KafkaTopicConfiguration/messageTimeout``for the first message in the batch.
         /// Default: `.milliseconds(60000)`
-        public var timeout: Duration = .milliseconds(60000) {
+        public var timeout: MillisecondDuration = .milliseconds(60000) {
             didSet {
                 precondition(
                     self.timeout.canBeRepresentedAsMilliseconds,
@@ -178,7 +178,7 @@ public enum KafkaConfiguration {
         /// Maximum time allowed for broker connection setup (TCP connection setup as well SSL and SASL handshake).
         /// If the connection to the broker is not fully functional after this the connection will be closed and retried.
         /// Default: `.milliseconds(30000)`
-        public var connectionSetupTimeout: Duration = .milliseconds(30000)
+        public var connectionSetupTimeout: MillisecondDuration = .milliseconds(30000)
 
         public init() {}
     }
@@ -188,7 +188,7 @@ public enum KafkaConfiguration {
         /// How long to cache the broker address resolving results.
         /// (Lowest granularity is milliseconds)
         /// Default: `.milliseconds(1000)`
-        public var addressTimeToLive: Duration = .milliseconds(1000) {
+        public var addressTimeToLive: MillisecondDuration = .milliseconds(1000) {
             didSet {
                 precondition(
                     self.addressTimeToLive.canBeRepresentedAsMilliseconds,
@@ -215,7 +215,7 @@ public enum KafkaConfiguration {
             }
 
             /// (Lowest granularity is milliseconds)
-            public static func backoff(_ value: Duration) -> Backoff {
+            public static func backoff(_ value: MillisecondDuration) -> Backoff {
                 precondition(
                     value.canBeRepresentedAsMilliseconds,
                     "Lowest granularity is milliseconds"
@@ -235,7 +235,7 @@ public enum KafkaConfiguration {
 
         /// The maximum time to wait before reconnecting to a broker after the connection has been closed.
         /// Default: `.milliseconds(10000)`
-        public var maximumBackoff: Duration = .milliseconds(10000) {
+        public var maximumBackoff: MillisecondDuration = .milliseconds(10000) {
             didSet {
                 precondition(
                     self.maximumBackoff.canBeRepresentedAsMilliseconds,

@@ -12,14 +12,23 @@
 //
 //===----------------------------------------------------------------------===//
 
-extension Duration {
-    internal var inMilliseconds: UInt {
-        let seconds = Double(components.seconds) * 1000.0
-        let attoseconds = Double(components.attoseconds) * 1e-15
-        return UInt(seconds + attoseconds)
+/// Simple type that can be used to express a duration in milliseconds
+///
+/// Apple's code uses the `Duration` type which is only available in macOS 13+.  Throughout the
+/// code, the minimum precision is milliseconds.
+///
+/// This type represents a duration in milliseconds using an `UInt` for storage.
+public struct MillisecondDuration: Sendable, Equatable, Hashable {
+    public var inMilliseconds: UInt
+
+    public static func milliseconds(_ value: UInt) -> Self {
+        MillisecondDuration(inMilliseconds: value)
     }
 
-    internal var canBeRepresentedAsMilliseconds: Bool {
-        return self.inMilliseconds > 0
+    internal let canBeRepresentedAsMilliseconds: Bool = true
+
+    /// This is here to support the backwards compatible `Task.sleep(nanoseconds:)` function
+    internal var nanoseconds: UInt64 {
+        UInt64(self.inMilliseconds * 1_000_000)
     }
 }

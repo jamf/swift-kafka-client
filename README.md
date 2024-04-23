@@ -2,6 +2,12 @@
 
 The Swift Kafka Client library provides a convenient way to interact with [Apache Kafka](https://kafka.apache.org) by leveraging [Swift's new concurrency features](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html). This package wraps the native [`librdkafka`](https://github.com/confluentinc/librdkafka) library.
 
+# Jamf Fork of Swift Kafka Client
+
+This repository is a fork of the official Swift Kafka Client.  The only changes in this fork are to support macOS 11 and macOS 12; the official repository supports macOS 13+.
+
+As of 2024-04-22 the only required changes are to use a custom `MillisecondDuration` struct instead of the `Duration` type from the Swift Standard Library.  A few calls to `Task.sleep(for:)` that use `Duration` were changed to `Task.sleep(nanoseconds:)`.  All unit tests still pass with no changes.
+
 ## Adding Kafka as a Dependency
 
 To use the `Kafka` library in a SwiftPM project,

@@ -232,7 +232,7 @@ public final class KafkaProducer: Service, Sendable {
                         _ = source?.yield(.deliveryReports(reports))
                     }
                 }
-                try await Task.sleep(for: self.configuration.pollInterval)
+                try await Task.sleep(nanoseconds: self.configuration.pollInterval.nanoseconds)
             case .flushFinishSourceAndTerminatePollLoop(let client, let source):
                 precondition(
                     0...Int(Int32.max) ~= self.configuration.flushTimeoutMilliseconds,

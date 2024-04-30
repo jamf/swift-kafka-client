@@ -64,14 +64,14 @@ public struct KafkaConsumerMessages: Sendable, AsyncSequence {
     typealias LockedMachine = NIOLockedValueBox<KafkaConsumer.StateMachine>
 
     let stateMachine: LockedMachine
-    let pollInterval: Duration
+    let pollInterval: MillisecondDuration
 
     public typealias Element = KafkaConsumerMessage
 
     /// `AsynceIteratorProtocol` implementation for handling messages received from the Kafka cluster (``KafkaConsumerMessage``).
     public struct AsyncIterator: AsyncIteratorProtocol {
         private let stateMachineHolder: MachineHolder
-        let pollInterval: Duration
+        let pollInterval: MillisecondDuration
 
         private final class MachineHolder: Sendable { // only for deinit
             let stateMachine: LockedMachine
@@ -85,7 +85,7 @@ public struct KafkaConsumerMessages: Sendable, AsyncSequence {
             }
         }
 
-        init(stateMachine: LockedMachine, pollInterval: Duration) {
+        init(stateMachine: LockedMachine, pollInterval: MillisecondDuration) {
             self.stateMachineHolder = .init(stateMachine: stateMachine)
             self.pollInterval = pollInterval
         }
@@ -102,9 +102,9 @@ public struct KafkaConsumerMessages: Sendable, AsyncSequence {
                     if let message = try client.consumerPoll() { // non-blocking call
                         return message
                     }
-                    try await Task.sleep(for: self.pollInterval)
+                    try await Task.sleep(nanoseconds: self.pollInterval.nanoseconds)
                 case .suspendPollLoop:
-                    try await Task.sleep(for: self.pollInterval) // not started yet
+                    try await Task.sleep(nanoseconds: self.pollInterval.nanoseconds) // not started yet
                 case .terminatePollLoop:
                     return nil
                 }

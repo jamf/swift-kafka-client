@@ -20,7 +20,7 @@ public struct KafkaConsumerConfiguration {
     /// The time between two consecutive polls.
     /// Effectively controls the rate at which incoming events and messages are consumed.
     /// Default: `.milliseconds(100)`
-    public var pollInterval: Duration = .milliseconds(100)
+    public var pollInterval: MillisecondDuration = .milliseconds(100)
 
     /// A struct representing the different Kafka message consumption strategies.
     public struct ConsumptionStrategy: Sendable, Hashable {
@@ -76,7 +76,7 @@ public struct KafkaConsumerConfiguration {
         /// If no hearts are received by the broker for a group member within the session timeout, the broker will remove the consumer from the group and trigger a rebalance.
         /// (Lowest granularity is milliseconds)
         /// Default: `.milliseconds(45000)`
-        public var timeout: Duration = .milliseconds(45000) {
+        public var timeout: MillisecondDuration = .milliseconds(45000) {
             didSet {
                 precondition(
                     timeout.canBeRepresentedAsMilliseconds,
@@ -94,7 +94,7 @@ public struct KafkaConsumerConfiguration {
     /// Group session keepalive heartbeat interval.
     /// (Lowest granularity is milliseconds)
     /// Default: `.milliseconds(3000)`
-    public var heartbeatInterval: Duration = .milliseconds(3000) {
+    public var heartbeatInterval: MillisecondDuration = .milliseconds(3000) {
         didSet {
             precondition(
                 heartbeatInterval.canBeRepresentedAsMilliseconds,
@@ -111,7 +111,7 @@ public struct KafkaConsumerConfiguration {
     ///
     /// (Lowest granularity is milliseconds)
     /// Default: `.milliseconds(300_000)`
-    public var maximumPollInterval: Duration = .milliseconds(300_000) {
+    public var maximumPollInterval: MillisecondDuration = .milliseconds(300_000) {
         didSet {
             precondition(
                 maximumPollInterval.canBeRepresentedAsMilliseconds,
@@ -179,7 +179,7 @@ public struct KafkaConsumerConfiguration {
     /// Metadata cache max age.
     /// (Lowest granularity is milliseconds)
     /// Default: `.milliseconds(900_000)`
-    public var maximumMetadataAge: Duration = .milliseconds(900_000) {
+    public var maximumMetadataAge: MillisecondDuration = .milliseconds(900_000) {
         didSet {
             precondition(
                 maximumMetadataAge.canBeRepresentedAsMilliseconds,

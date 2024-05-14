@@ -31,7 +31,7 @@ extension KafkaConfiguration {
         }
 
         /// Update interval for statistics.
-        public var updateInterval: Duration?
+        public var updateInterval: MillisecondDuration?
 
         /// Number of operations (callbacks, events, etc) waiting in the queue.
         public var queuedOperation: Gauge?
@@ -93,7 +93,7 @@ extension KafkaConfiguration {
         }
 
         /// Update interval for statistics.
-        public var updateInterval: Duration?
+        public var updateInterval: MillisecondDuration?
 
         /// Number of operations (callbacks, events, etc) waiting in the queue.
         public var queuedOperation: Gauge?

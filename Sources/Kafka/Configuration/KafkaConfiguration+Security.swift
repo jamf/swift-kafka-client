@@ -286,7 +286,7 @@ extension KafkaConfiguration {
                 }
 
                 /// (Lowest granularity is milliseconds)
-                public static func value(_ value: Duration) -> KeyRefreshAttempts {
+                public static func value(_ value: MillisecondDuration) -> KeyRefreshAttempts {
                     precondition(
                         value.canBeRepresentedAsMilliseconds,
                         "Lowest granularity is milliseconds"
